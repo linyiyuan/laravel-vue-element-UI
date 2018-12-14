@@ -1,68 +1,140 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# 商城项目
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+- v1.0 林益远 2018.12.14 修订
 
-## About Laravel
+## 1 前言
+### 1.1 项目说明
+该项目使用laravel5.6 + vue2.0 + Element UI 进行开发，构建一个后台脚本架，采用前后端分离
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+### 1.2 注意事项
+该项目仅供学习测试参考，切勿使用于商业用途，主要的业务有以下:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 用户模块
+- 角色模块
+- 权限模块
+- 系统配置
+- .....
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## 2 如何部署
+### 2.1 开发说明
+- 开发框架：`Laravel 5.6`  `Vue2.0`
+- PHP版本：`PHP 7.1`
+- 扩展：`Redis`、`Swoole` 
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+### 2.2 安装
+#### 2.2.1 基本要求
+- 服务器要求：
+	- PHP >= 7.1.3
+	- OpenSSL PHP扩展
+	- PDO PHP扩展，注意需要php_mysql
+	- Mbstring PHP扩展
+	- Tokenizer PHP扩展
+	- XML PHP扩展
+	- Swoole PHP扩展
+	- Redis PHP扩展
 
-## Laravel Sponsors
+<br>
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+#### 2.2.2 安装步骤
+以下为本项目git仓库地址
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
+	git@gitee.com:linyiyuan/laravel5.6-shop.git
+	
+<br>
+**第1步：克隆代码**
 
-## Contributing
+	git clone git@gitee.com:linyiyuan/laravel5.6-shop.git
+<br>
+**第2步：安装composer包**
+	
+	composer install
+	
+<br>
+**第3步：配置文件**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1、在项目中找到`.env.example`文件，该文件作为项目的全局配置文件，在部署时需要复制成`.env`，执行以下命令
 
-## Security Vulnerabilities
+	cp -f .env.example ./.env
+2、根据.env文件修改各配置项，如果.env文件中没有存在key值则运行命令：
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+	  php artisan key:generate
 
-## License
+3、配置stroage bootstrap 可写
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+	 chmod -R 777 stroage bootstrap
+
+4、生成jwt 的secret 并在.env配置相应的jwt参数
+
+	 php artisan jwt:secret
+
+<br>
+**第4步：初始化数据库**
+
+在根路径上执行以下命令来实现初始化数据库结构。注意执行该命令前请检查项目是否已依赖`doctrine/dbal`
+
+	php artisan migrate
+
+运行数据迁移，初始化数据，生成默认用户以及相关角色权限
+
+	 php artisan db:seed
+
+至此基本以完成，可以在浏览器中访问域名，如出现`larvel`字符串页面则说明部署完成，后续请根据各需求点作测试
+
+<br>	
+
+**第5步：安装前端依赖**
+
+在项目跟目录运行命令
+
+	 sudo npm install
+
+**第6步：编译代码**
+
+	 npm run build
+
+
+#### 2.2.3 Nginx配置参考
+	
+	server {
+    listen 80;
+    server_name 项目名;
+    root 项目路径;
+    index index.php index.html index.htm;
+    
+		 location / {
+		        #add_header 'Access-Control-Allow-Origin' 'http://manager2.web';
+		         if (!-e $request_filename){
+		            rewrite  ^/(.*)$  /index.php?s=$1  last;
+		        }
+		   }
+		   location /obs/ {
+		        index obs.php;
+		        rewrite ^/obs/(.*)$ /obs.php?s=/obs/$1 last;
+		   }
+		   location /guild/ {
+		       index guild.php;
+		       rewrite ^/guild/(.*)$ /guild.php?s=/guild/$1 last;
+		   }
+
+
+		    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+		    location ~ \.php$ {
+		        #include snippets/fastcgi-php.conf;
+
+			root 项目路径;
+		        # With php7.0-cgi alone:
+		        fastcgi_pass 127.0.0.1:9000;
+			proxy_read_timeout 300;
+		        fastcgi_read_timeout 600;
+		        ## With php7.0-fpm:
+		        #fastcgi_pass unix:/run/php/php7.1-fpm.sock;
+			fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+			include        fastcgi_params;
+		    }
+
+		    location ~ /\.ht {
+		        deny all;
+		    }
+		}
